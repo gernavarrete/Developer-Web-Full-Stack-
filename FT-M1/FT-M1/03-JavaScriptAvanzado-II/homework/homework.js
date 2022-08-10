@@ -55,6 +55,7 @@ function cacheFunction(cb) {
   el resultado de square(5) y lo retornará (tip: si usaste un objeto, podés usar hasOwnProperty) 
 
   */
+ 
  var obj = new Object();
  return function(arg) {
     if (obj.hasOwnProperty(arg) ) {
