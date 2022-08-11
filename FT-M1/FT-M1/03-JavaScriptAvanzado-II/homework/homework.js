@@ -58,16 +58,13 @@ function cacheFunction(cb) {
  
  var obj = new Object();
  return function(arg) {
-    if (obj.hasOwnProperty(arg) ) {
-      return obj[arg];
-    }
-    else {
+    if (!(obj.hasOwnProperty(arg))) {
       obj[arg] = cb(arg);
-      return obj[arg];
     }
+  return obj[arg];
   }
 }
-
+//return (arg) =>  (obj.hasOwnProperty(arg)) ? obj[arg] : return obj[arg] = cb(arg);
 // Bind
 
 var instructor = {
