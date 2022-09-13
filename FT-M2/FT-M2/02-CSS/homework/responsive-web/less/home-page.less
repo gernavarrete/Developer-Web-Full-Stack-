@@ -3,33 +3,49 @@
 .home {
 
   .intro {
+    .main-header {
+      border-radius: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      align-content: center;
+      justify-content: center;
+      width: 100%;
+    }
 
     h2 {
       padding: 15px;
     }
-
+    
     p {
       padding:0 15px;
     }
-
+    
   }
-
+  
   .music-images {
     display: flex;
     flex-wrap: wrap;
     width: 100%;
-
+    
     img {
       width: 28%;
       margin: 20px 2.5%;
       border-radius: 20px;
       height: 100%;
     }
+    @media @phone {
+      .tecnologia,.ondas {
+        display: none;
+      }
+      .auricular {
+        width: 100%;
+      }
+    }
   }
 
   .musica-nueva {
     padding: 15px;
-
+    
     h3 {
       margin-top: 11px;
     }
@@ -58,6 +74,23 @@
       }
 
       .btn {
+        .btn-style(@btn-bg-color,8px);
+        width: 90px;
+        height: 35px;
+        @media @phone {
+          width: 100%;
+        }
+      }
+      button:hover {
+        background-color:@wild-sand;
+        color:@btn-bg-color;
+        font-family: 'Lucida Sans', sans-serif;
+        cursor: pointer;
+      }
+      @media @phone {
+        justify-content: center;
+        width: 100%;
+        order: 1;
       }
     }
 
@@ -70,6 +103,17 @@
         height: auto;
         border-radius: 10px;
       }
+      @media @phone {
+        margin-left: 0;
+        width: 100%;
+        align-content: center;
+        justify-content: center;
+        order:0;
+      }
+    }
+    @media @phone {
+      flex-direction: column;
+      width: 100%;
     }
   }
 }

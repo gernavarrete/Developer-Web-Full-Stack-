@@ -1,1 +1,23 @@
-// Código de Nav acá
+// Código de Nav ac
+.main-title {
+    .primer-mixin();
+}
+nav {
+    .primer-mixin();
+    margin-bottom: 10px;
+    background-color: @nav-bg;
+    border: @nav-border solid 2px;
+        ul {
+            display: flex;
+            justify-content: space-around;
+            width: 350px;
+            @media @phone {
+                width: 65%;
+            }
+            a {
+                text-decoration: none;
+                color:  @nav-font;
+                font-weight: bold;
+            }
+        }
+}

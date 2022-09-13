@@ -65,9 +65,9 @@ A partir de una paǵina que simula una noticia sobre _Música 8D_ es necesario t
 
 #### Formato Mobile
 
-* Crear una variable `@phone` que contenga un media query de `max-width: 500px`. Utilizar dicha variable para todos los estilos anidados para el formato Mobile
+* Crear una variable `@phone` que contenga un media query de `max-width: 500px`. Utilizar dicha variable para todos los estilos anidados para el formato Mobile.
 
-* A partir del [diseño mobile](responsive-web/diseño/home-mobile.png) provisto, ajustar los estilos para que se parezca lo mayor posible a la imagen
+* A partir del [diseño mobile](responsive-web/diseño/home-mobile.png) provisto, ajustar los estilos para que se parezca lo mayor posible a la imagen.
 
 ### Extras [Opcional]
 

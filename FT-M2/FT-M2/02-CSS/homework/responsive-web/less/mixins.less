@@ -1,1 +1,15 @@
 // Mixins acá
+.primer-mixin {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-style(@color,@radiusborder) {
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 15px;
+    color: @wild-sand;
+    background-color: @color;
+    border-radius: @radiusborder;
+}

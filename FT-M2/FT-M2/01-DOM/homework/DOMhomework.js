@@ -56,13 +56,22 @@ function buildToDo(todo, index) {
   // Tu código acá:
   let toDoShell = document.createElement('div'); //Crear un elemento 'div' y asignárselo a una variable denominada 'toDoShell'
   toDoShell.classList.add('toDoShell'); //Asignarle a 'toDoShell' la clase 'toDoShell'
-  let toDoText = document.createElement('span'); // Crear un elemento 'span' y asignárselo a una variable denominada 'toDoText'
+  let toDoText = document.createElement('span');
+  let checkbox = document.createElement('input') // Crear un elemento 'span' y asignárselo a una variable denominada 'toDoText'
+  checkbox.setAttribute('type','checkbox');
+  checkbox.id = index
+  checkbox.addEventListener('click',completeToDo);
+  checkbox.classList.add('completeCheckbox');
   toDoText.innerHTML = todo.description; //4
-  toDoText.id = index; //Asignarle como id del 'toDoText' el valor 'index' recibido como argumento
-  toDoText.addEventListener('click', completeToDo);
-  (todo.complete) ? toDoText.classList.add('completeText') : toDoText.classList.remove(); //6)
+  toDoText.id = ''; //Asignarle como id del 'toDoText' el valor 'index' recibido como argumento
+  //toDoText.addEventListener('click', completeToDo);
+  if(todo.complete) {
+    toDoText.classList.add('completeText');
+    checkbox.setAttribute('checked', '');
+    toDoShell.style.backgroundColor = 'gray';
+  } 
+  toDoShell.insertAdjacentElement('afterbegin', checkbox);
   toDoShell.appendChild(toDoText); //Agregar 'toDoText' como hijo de 'toDoShell'
-  //console.log(toDoShell);
   return toDoShell;
 }
 
@@ -73,8 +82,7 @@ function buildToDo(todo, index) {
 
 function buildToDos(toDos) {
   // Tu código acá:
-let toDo = toDos;
-toDo = toDo.map(e => buildToDo(e,0));
+let toDo = toDos.map(e => buildToDo(e,0));
 return toDo;
 }
 
@@ -140,8 +148,7 @@ function completeToDo(event) {
   // DESCOMENTAR LA SIGUIENTE LINEA
   const index = event.target.id;
   // Tu código acá:
-  let element = toDoItems.getElementById(index);
-  console.log(element);
+  let element = toDoItems[index];
   element.completeToDo();
   displayToDos();
 }
