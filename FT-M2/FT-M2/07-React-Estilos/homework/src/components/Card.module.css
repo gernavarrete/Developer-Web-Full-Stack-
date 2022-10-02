@@ -1,0 +1,36 @@
+.div {
+    width: 300px;
+    height: 200px;
+    background-color:lightcyan;
+    border: 1px solid grey;
+    border-radius: 5px;
+    margin: 1em; 
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+}
+.div:hover {
+    box-shadow: 0px 0px 15px 5px rgb(27, 43, 85);
+}
+.button {
+    background-color: red;
+    font-weight: bold;
+    border: 1px solid black;
+    border-radius: 5px;
+    width: 30px;
+    height: 30px;
+    margin: 2px;
+    align-self: flex-end;
+}
+.divTempContainer {
+    display: flex;
+    justify-content: space-around;
+    justify-items: center;
+    align-content: center;
+}
+
+.divTemp {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
