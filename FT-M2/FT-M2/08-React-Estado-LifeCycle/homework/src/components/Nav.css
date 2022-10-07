@@ -1,3 +1,28 @@
 #logoHenry {
   margin-right: 20px;
+  margin-left: 20px;
+  margin: 5px 5px;
+}
+.divContainer {
+  display: flex;
+  justify-content: space-between;
+  background-color: grey;
+  width: 100%;
+  height: 50px;
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  color: white;
+}
+
+.divNavBar {
+  display: flex;
+}
+
+.searchBar {
+  display: flex;
+  align-items: center;
+  margin-right: 10px;
 }
