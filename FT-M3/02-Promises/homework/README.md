@@ -35,7 +35,7 @@ asyncFunctionThatReturnsPromise()
 
 Notá un punto muy importante: llamar a `.then` siempre devuelve una nueva promesa a la cual podes llamar a `.then` otra vez (y otra vez).
 
-También, si devuelves un valor o una promesa por un valor de un success handler, la siguiente parte de la cadena recibe ese valor. De esta manera, podes evitar el "callback hell".
+También, si devuelves un valor o una promesa por un valor de un success handler(controladora de exitos), la siguiente parte de la cadena recibe ese valor. De esta manera, podes evitar el "callback hell".
 
 ---
 
@@ -45,7 +45,7 @@ Una parte crucial de la asincronicidad es recordar manejar los errores. En el es
 asyncFunction(function callback1(err, result) {
   if (err) console.error("ERR!", err);
   console.log(result);
-  asyncFunction(function callback2(err, result) {
+  asyncFunction(function callback2(err, result2) {
     if (err) console.error("ERR2!", err);
     console.log(result2);
   });
