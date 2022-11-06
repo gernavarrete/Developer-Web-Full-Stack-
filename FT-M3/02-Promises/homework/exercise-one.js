@@ -192,5 +192,6 @@ function problemF () {
  .then(stanza3 => {
   blue(stanza3);
   return promisifiedReadFile('poem-one/wrong-file-name.txt')})
- .then(result => blue(result), err => {magenta(new Error(err)), console.log('-- F. callback version done --')})
+ .then(result => blue(result), err => magenta(new Error(err))) //|| .catch(err => magenta(new Error(err))
+ .finally(() => console.log('-- F. callback version done --'))
 }
