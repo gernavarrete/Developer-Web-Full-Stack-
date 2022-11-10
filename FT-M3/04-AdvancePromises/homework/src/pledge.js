@@ -13,32 +13,39 @@ executor(
     if(this._state === 'pending') {
         this._state = 'fulfilled';
         this._value = value;
-        this._handlerGroups.forEach(e => this._callHandlers(e.successCb))
+        if(this._handlerGroups !== []){
+            this._handlerGroups.forEach(e => { if(e.successCb) this._callHandlers(e.successCb)});
+            this._handlerGroups.shift();
+        }
     }
 },
     this._internalReject = (value) => {
     if(this._state === 'pending') {
         this._state = 'rejected';
         this._value = value;
+        if(this._handlerGroups !== []) {
+            this._handlerGroups.forEach(e => { if(e.errorCb) this._callHandlers(e.errorCb)});
+            this._handlerGroups.shift();
+        }
     }
 })
 this.then = function(sH,eH){
-    if(typeof sH !== 'function' && typeof eH !== 'function') {
+    if(typeof sH !== 'function' && typeof eH !== 'function') 
         this._handlerGroups.push({successCb : false, errorCb : false});
-    }
-    else if(typeof sH !== 'function') {
+    else if(typeof sH !== 'function') 
         this._handlerGroups.push({successCb : false, errorCb : eH});
-    }
-    else if(typeof eH !== 'function') this._handlerGroups.push({successCb : sH, errorCb : false});
+    else if(typeof eH !== 'function') 
+        this._handlerGroups.push({successCb : sH, errorCb : false});
     else {
         this._handlerGroups.push({successCb: sH, errorCb : eH})
     }
-    if(this._state === 'fulfilled') this._callHandlers(sH);
-    else if(this._state === 'rejected') this._callHandlers(eH);
+    if(this._state === 'fulfilled' && sH) this._callHandlers(sH);
+    else if(this._state === 'rejected' && eH) this._callHandlers(eH);
 }
 this._callHandlers = function(handler){
     return handler(this._value);
 }
+this.catch = (eH) => this.then(null, eH);
 }
 module.exports = $Promise;
 
