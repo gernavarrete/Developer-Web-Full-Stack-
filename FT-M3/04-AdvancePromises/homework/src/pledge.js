@@ -5,48 +5,81 @@ Promises Workshop: construye la libreria de ES6 promises, pledge.js
 // // TU CÓDIGO AQUÍ:
 
 function $Promise(executor){
-if(typeof executor !== 'function') throw new TypeError('executor not function')
-this._state = 'pending';
-this._handlerGroups = [];
-executor(
-    this._internalResolve = (value) => {
+    if(typeof executor !== 'function') throw new TypeError('executor not function')
+    this._state = 'pending';
+    this._handlerGroups = [];
+    executor(this._internalResolve.bind(this),this._internalReject.bind(this));
+}
+$Promise.prototype._internalResolve = function(value){
     if(this._state === 'pending') {
         this._state = 'fulfilled';
         this._value = value;
-        if(this._handlerGroups !== []){
-            this._handlerGroups.forEach(e => { if(e.successCb) this._callHandlers(e.successCb)});
-            this._handlerGroups.shift();
-        }
+        this._callHandlers();
     }
-},
-    this._internalReject = (value) => {
+}
+$Promise.prototype._internalReject = function(value){
     if(this._state === 'pending') {
         this._state = 'rejected';
         this._value = value;
-        if(this._handlerGroups !== []) {
-            this._handlerGroups.forEach(e => { if(e.errorCb) this._callHandlers(e.errorCb)});
-            this._handlerGroups.shift();
+        this._callHandlers();
+    }
+}
+$Promise.prototype.then = function(sH,eH){
+    if(typeof sH !== 'function') sH = false;
+    if(typeof eH !== 'function') eH = false
+    const downstreamPromise = new $Promise(function() {})
+    this._handlerGroups.push(
+            {successCb: sH,
+            errorCb : eH,
+            downstreamPromise,
+        })
+    if(this._state !== 'pending')  this._callHandlers()
+   return downstreamPromise;
+}
+$Promise.prototype._callHandlers = function(){
+    while(this._handlerGroups.length > 0) {
+        let current = this._handlerGroups.shift();
+        if(this._state === 'fulfilled') {
+            if(!current.successCb){
+                current.downstreamPromise._internalResolve(this._value);
+            } else {
+                try {
+                    let result = current.successCb(this._value)
+                    if(result instanceof $Promise) {
+                        result.then(value => current.downstreamPromise._internalResolve(value),
+                        error => current.downstreamPromise._internalReject(error)
+                        )
+                    }else {
+                        current.downstreamPromise._internalResolve(result)
+                    }
+                } 
+                catch(e) {
+                    current.downstreamPromise._internalReject(e);
+                }
+            }
+            //current.successCb && current.successCb(this._value)
+        }else if(this._state === 'rejected') {
+            if(!current.errorCb){
+                current.downstreamPromise._internalReject(this._value);
+            } else {
+                try {
+                    let result = current.errorCb(this._value)
+                    if(result instanceof $Promise) {
+                        result.then(value => current.downstreamPromise._internalResolve(value),
+                        error => current.downstreamPromise._internalReject(error)
+                        )
+                    }else {
+                        current.downstreamPromise._internalResolve(result)
+                    }
+                } 
+                catch(e) {
+                    current.downstreamPromise._internalReject(e);
+                }
+            }
         }
     }
-})
-this.then = function(sH,eH){
-    if(typeof sH !== 'function' && typeof eH !== 'function') 
-        this._handlerGroups.push({successCb : false, errorCb : false});
-    else if(typeof sH !== 'function') 
-        this._handlerGroups.push({successCb : false, errorCb : eH});
-    else if(typeof eH !== 'function') 
-        this._handlerGroups.push({successCb : sH, errorCb : false});
-    else {
-        this._handlerGroups.push({successCb: sH, errorCb : eH})
-    }
-    if(this._state === 'fulfilled' && sH) this._callHandlers(sH);
-    else if(this._state === 'rejected' && eH) this._callHandlers(eH);
 }
-this._callHandlers = function(handler){
-    return handler(this._value);
-}
-this.catch = (eH) => this.then(null, eH);
-}
+$Promise.prototype.catch = function(eH){ return this.then(null, eH)};
 module.exports = $Promise;
 
 
